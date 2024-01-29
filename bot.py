@@ -20,9 +20,9 @@ db = {}
 @bot.on(events.NewMessage(pattern="^[!?/]start$"))
 async def stsrt(event):
     await event.reply(
-            "**Heya, I am a Whisper Bot!**",
+            "**Salam, Mən @sjrvan 'ın boş vaxtında hazırlanmış gizli mesaj botuyam istifadə qaydasını yəqinki bilirsən!\n\nİstifadə qaydası:@nnbazbot Salam Şirvan! @sjrvan**",
             buttons=[
-                [Button.switch_inline("Go Inline", query="")]
+                [Button.switch_inline("Mesaj yaz!", query="")]
                 ]
             )
 
@@ -33,9 +33,9 @@ async def die(event):
         return
     me = (await bot.get_me()).username
     dn = event.builder.article(
-            title="It's a whisper bot!",
-            description="It's a whisper Bot!\n(c) Reeshuxd",
-            text=f"**It's a whisper bot**\n`@{me} wspr UserID|Message`\n**(c) Reeshuxd**",
+            title="Mən Gizli Mesaj botuyam!",
+            description="Mən gizli mesaj botuyam!\n(c) @Sjrvan",
+            text=f"**Mən Gizli Mesaj Botuyam**\n`@{me} Salam UserID|Message`\n**(c) Sjrvan**",
             buttons=[
                 [Button.switch_inline(" Go Inline ", query="wspr ")]
                 ]
@@ -57,7 +57,7 @@ async def inline(event):
     except ValueError:
         await event.answer(
                 [],
-                switch_pm=f"Give a message too!",
+                switch_pm=f"Mənə bir mesaj ver!",
                 switch_pm_param="start"
                 )
     try:
@@ -65,28 +65,28 @@ async def inline(event):
     except BaseException:
         await event.answer(
                 [],
-                switch_pm="Invalid User ID/Username",
+                switch_pm="Xətalı User ID/Username",
                 switch_pm_param="start"
                 )
         return
     db.update({"user_id": ui.user.id, "msg": msg, "self": event.sender.id})
     text = f"""
-A Whisper Has Been Sent
-To [{ui.user.first_name}](tg://user?id={ui.user.id})!
-Click The Below Button To See The Message!
-**Note:** __Only {ui.user.first_name} can open this!__
+Gizli Mesaj Göndərilib 
+Arasında [{ui.user.first_name}](tg://user?id={ui.user.id})!
+Klik et mesajı görüntülə!
+**Qeyd:** __Yalnız {ui.user.first_name} mesajı aça bilər!__
     """
     dn = event.builder.article(
-            title="Its a secret message! Sssh",
-            description="It's a secret message! Sssh!",
+            title="Gizli mesajdır! Kiminsə şəxsi söhbətinə qarışa bilmərik(",
+            description="Gizli mesajdır! Kiminsə şəxsi söhbətinə qarışa bilmərik(",
             text=text,
             buttons=[
-                [Button.inline(" Show Message! ", data="wspr")]
+                [Button.inline(" Mesaja Bax🔔 ", data="wspr")]
                 ]
             )
     await event.answer(
             [dn],
-            switch_pm="It's a secret message! Sssh",
+            switch_pm="Gizli mesajdır! Kiminsə şəxsi söhbətinə qarışa bilmərik(",
             switch_pm_param="start"
             )
 
@@ -97,12 +97,12 @@ async def ws(event):
     lol = [int(db["self"])]
     lol.append(user)
     if event.sender.id not in lol:
-        await event.answer("🔐 This message is not for you!", alert=True)
+        await event.answer("🔐 Gizli mesajdır! Kiminsə şəxsi söhbətinə qarışa bilmərik!", alert=True)
         return
     msg = db["msg"]
     if msg == []:
         await event.anwswer(
-                "Oops!\nIt's looks like message got deleted from my server!", alert=True)
+                "Xəta!\nDeyəsən mesaj serverimdən bu mesaj silinib!", alert=True)
         return
     await event.answer(msg, alert=True)
 
